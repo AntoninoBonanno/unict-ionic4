@@ -13,12 +13,7 @@ import { ToastTypes } from 'src/app/enums/toast-types.enum';
 })
 export class LoginPage {
 
-  /* loginUser = {} as Login; */
-
-  loginUser: Login = {
-    email: 'fabio@test.com',
-    password: 'fabio'
-  };
+  loginUser = {} as Login;
 
   constructor(
     private navCtrl: NavController,
