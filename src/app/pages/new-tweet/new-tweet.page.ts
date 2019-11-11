@@ -80,8 +80,14 @@ export class NewTweetPage implements OnInit {
   }
 
   isDataInvalid(): boolean {
-    return this.newTweet.tweet.length < 1 &&
+
+    if (this.newTweet.tweet) {
+      return !this.newTweet.tweet.length ||
       this.newTweet.tweet.length > 120;
+    }
+
+    return true;
+
   }
 
 }

@@ -22,12 +22,12 @@
   
     <ion-row>
       <ion-col>
-        <ion-button fill="solid" expand="full" (click)="login()">Login</ion-button>
+        <ion-button [disabled]="isDataInvalid()" fill="solid" expand="full" (click)="login()">Login</ion-button>
       </ion-col>
     </ion-row>
     <ion-row>
       <ion-col>
-        <ion-button [disabled]="isDataInvalid()" fill="clear" expand="full" (click)="goToSignup()">New account</ion-button>
+        <ion-button fill="clear" expand="full" (click)="goToSignup()">New account</ion-button>
       </ion-col>
     </ion-row>
   </div>

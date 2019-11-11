@@ -58,7 +58,12 @@ export class LoginPage {
   }
 
   isDataInvalid(): boolean {
-    return this.loginUser.password.length < 5;
+
+    if (this.loginUser.password) {
+      return this.loginUser.password.length < 5;
+    }
+
+    return true;
   }
 
 }

@@ -51,9 +51,6 @@ export class UsersPage implements OnInit {
 
     } catch (err) {
 
-      // Chiudo il loader
-      await this.uniLoader.dismiss();
-
       // Nel caso la chiamata vada in errore, mostro l'errore in un toast
       await this.toastService.show({
         message: err.message,
@@ -61,6 +58,10 @@ export class UsersPage implements OnInit {
       });
 
     }
+
+    // Chiudo il loader
+    await this.uniLoader.dismiss();
+
   }
 
 

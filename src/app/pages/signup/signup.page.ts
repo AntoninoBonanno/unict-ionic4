@@ -55,9 +55,6 @@ export class SignupPage {
 
     } catch (err) {
 
-      // Chiudo il loader
-      await this.uniLoader.dismiss();
-
       // Nel caso la chiamata vada in errore, mostro l'errore in un toast
       await this.toastService.show({
         message: err.message,
@@ -66,10 +63,19 @@ export class SignupPage {
 
     }
 
+    // Chiudo il loader
+    await this.uniLoader.dismiss();
+
   }
 
   isDataInvalid(): boolean {
-    return this.user.password.length < 5;
+
+    if (this.user.password) {
+      return this.user.password.length < 5;
+    }
+
+    return true;
+
   }
 
 
