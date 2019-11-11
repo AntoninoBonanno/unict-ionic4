@@ -17,6 +17,10 @@ collection/
 dist/
 dist-transpiled/
 node_modules/
+plugins/
+platforms/
+www/
+package-lock.json
 tmp/
 temp/
 core/theme-builder/
