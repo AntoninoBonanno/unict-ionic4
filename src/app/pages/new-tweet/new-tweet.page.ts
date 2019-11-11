@@ -44,6 +44,7 @@ export class NewTweetPage implements OnInit {
   }
 
   async createOrEditTweet() {
+
     try {
 
       // Avvio il loader
@@ -60,9 +61,6 @@ export class NewTweetPage implements OnInit {
         await this.tweetsService.createTweet(this.newTweet);
       }
 
-      // Rimuovo il loader
-      await this.uniLoader.dismiss();
-
       // Chiudo la modal
       await this.dismiss();
 
@@ -76,6 +74,14 @@ export class NewTweetPage implements OnInit {
 
     }
 
+    // Chiudo il loader
+    await this.uniLoader.dismiss();
+
+  }
+
+  isDataInvalid(): boolean {
+    return this.newTweet.tweet.length < 1 &&
+      this.newTweet.tweet.length > 120;
   }
 
 }

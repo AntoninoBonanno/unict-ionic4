@@ -55,11 +55,14 @@ export class ProfilePage implements OnInit {
 
       } catch (err) {
 
-          // Nel caso la chiamata vada in errore, mostro l'errore in un toast
-          await this.toastService.show({
-            message: err.message,
-            type: ToastTypes.ERROR
-          });
+        // Chiudo il loader
+        await this.uniLoader.dismiss();
+
+        // Nel caso la chiamata vada in errore, mostro l'errore in un toast
+        await this.toastService.show({
+          message: err.message,
+          type: ToastTypes.ERROR
+        });
 
       }
     }
@@ -107,9 +110,6 @@ export class ProfilePage implements OnInit {
       // Procedo con il logout
       await this.logout();
 
-      // Rimuovo il loader
-      await this.uniLoader.dismiss();
-
     } catch (err) {
 
       // Nel caso la chiamata vada in errore, mostro l'errore in un toast
@@ -119,6 +119,9 @@ export class ProfilePage implements OnInit {
       });
 
     }
+
+    // Chiudo il loader
+    await this.uniLoader.dismiss();
 
   }
 

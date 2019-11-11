@@ -30,6 +30,7 @@ export class LoginPage {
   }
 
   async login() {
+
     try {
 
       // Avvio il loader in attesa che venga risolta la promise
@@ -41,9 +42,6 @@ export class LoginPage {
       // Se la chiamata è andata buon fine, porto l'utente sulla schermata Tabs
       await this.navCtrl.navigateRoot('/');
 
-      // Chiudo il loader
-      await this.uniLoader.dismiss();
-
     } catch (err) {
 
       // Nel caso la chiamata vada in errore, mostro l'errore in un toast
@@ -54,6 +52,13 @@ export class LoginPage {
 
     }
 
+    // Chiudo il loader
+    await this.uniLoader.dismiss();
+
+  }
+
+  isDataInvalid(): boolean {
+    return this.loginUser.password.length < 5;
   }
 
 }

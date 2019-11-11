@@ -49,10 +49,10 @@ export class UsersPage implements OnInit {
       // Popolo il mio array di oggetti 'User' con quanto restituito dalla chiamata API
       this.users = await this.usersService.getUsers();
 
-      // La chiamata è andata a buon fine, dunque rimuovo il loader
-      await this.uniLoader.dismiss();
-
     } catch (err) {
+
+      // Chiudo il loader
+      await this.uniLoader.dismiss();
 
       // Nel caso la chiamata vada in errore, mostro l'errore in un toast
       await this.toastService.show({

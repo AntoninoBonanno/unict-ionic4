@@ -17,7 +17,7 @@
 
     <ion-textarea *ngIf="editMode; else newMode" [(ngModel)]="tweetToEdit.tweet"></ion-textarea>
     <ng-template #newMode>
-      <ion-textarea [(ngModel)]="newTweet.tweet"></ion-textarea>
+      <ion-textarea minlength="1" maxlength="120" [(ngModel)]="newTweet.tweet"></ion-textarea>
     </ng-template>
 
   </ion-item>
@@ -26,6 +26,6 @@
 
 <ion-footer>
   <ion-toolbar>
-    <ion-button expand="full" (click)="createOrEditTweet()">Tweet</ion-button>
+    <ion-button expand="full" [disabled]="isDataInvalid" (click)="createOrEditTweet()">Tweet</ion-button>
   </ion-toolbar>
 </ion-footer>

@@ -49,14 +49,14 @@ const routes: Routes = [
       },
       {
         path: '',
-        redirectTo: '/tabs/tabs',
+        redirectTo: '/tabs/tweets',
         pathMatch: 'full'
       }
     ]
   },
   {
     path: '',
-    redirectTo: '/tabs/tabs',
+    redirectTo: '/tabs/tweets',
     pathMatch: 'full'
   }
 ];

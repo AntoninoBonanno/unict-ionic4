@@ -77,9 +77,6 @@ export class TweetsPage implements OnInit {
     modal.onDidDismiss()
     .then(async () => {
 
-      // Avvio il loader
-      await this.uniLoader.show();
-
       // Aggiorno la mia lista di tweet, per importare le ultime modifiche apportate dall'utente
       await this.getTweets();
 
@@ -106,9 +103,6 @@ export class TweetsPage implements OnInit {
       // Riaggiorno la mia lista di tweets
       await this.getTweets();
 
-      // La chiamata è andata a buon fine, dunque rimuovo il loader
-      await this.uniLoader.dismiss();
-
       // Mostro un toast di conferma
       await this.toastService.show({
         message: 'Your tweet was deleted successfully!',
@@ -116,6 +110,9 @@ export class TweetsPage implements OnInit {
       });
 
     } catch (err) {
+
+      // Chiudo il loader
+      await this.uniLoader.dismiss();
 
       // Nel caso la chiamata vada in errore, mostro l'errore in un toast
       await this.toastService.show({

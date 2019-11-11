@@ -44,9 +44,6 @@ export class SignupPage {
       // Effettuo il login, per salvare il token in sessione
       await this.auth.login(loginUser);
 
-      // Rimuovo il loader
-      await this.uniLoader.dismiss();
-
       // Se la chiamata è andata buon fine, porto l'utente sulla schermata Tabs
       await this.navCtrl.navigateRoot('/');
 
@@ -58,6 +55,9 @@ export class SignupPage {
 
     } catch (err) {
 
+      // Chiudo il loader
+      await this.uniLoader.dismiss();
+
       // Nel caso la chiamata vada in errore, mostro l'errore in un toast
       await this.toastService.show({
         message: err.message,
@@ -66,6 +66,10 @@ export class SignupPage {
 
     }
 
+  }
+
+  isDataInvalid(): boolean {
+    return this.user.password.length < 5;
   }
 
 
