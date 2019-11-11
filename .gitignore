@@ -21,6 +21,7 @@ plugins/
 platforms/
 www/
 package-lock.json
+*.code-workspace
 tmp/
 temp/
 core/theme-builder/
