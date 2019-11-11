@@ -17,7 +17,6 @@ export class ExtraPage {
   barcodeData = {} as BarcodeScanResult;
 
   geoPosition = {} as Geoposition;
-  geoPolling;
 
   constructor(
     private barcodeScanner: BarcodeScanner,
@@ -38,7 +37,7 @@ export class ExtraPage {
 
     } catch (err) {
 
-      this.toastService.show({
+      await this.toastService.show({
         message: err.message,
         type: ToastTypes.ERROR
       });
@@ -55,7 +54,7 @@ export class ExtraPage {
 
     } catch (err) {
 
-      this.toastService.show({
+      await this.toastService.show({
         message: err.message,
         type: ToastTypes.ERROR
       });

@@ -39,7 +39,7 @@ export class AuthService {
         // effettuo la chiamata me per popolare l'oggetto 'me' con i miei dati
         this.me = await this.getMe();
 
-        // risolvo
+        // risolvo la promise
         resolve();
 
       }, reject);

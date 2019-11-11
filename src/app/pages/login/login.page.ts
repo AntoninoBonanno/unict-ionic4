@@ -22,21 +22,26 @@ export class LoginPage {
     private toastService: ToastService
   ) { }
 
-  goToSignup() {
-    this.navCtrl.navigateForward('/signup');
+  async goToSignup() {
+
+    // Navigo l'utente sulla pagina signup
+    await this.navCtrl.navigateForward('/signup');
+
   }
 
   async login() {
     try {
 
+      // Avvio il loader in attesa che venga risolta la promise
       await this.uniLoader.show();
 
       // Effettuo la chiamata login
       await this.auth.login(this.loginUser);
 
       // Se la chiamata è andata buon fine, porto l'utente sulla schermata Tabs
-      this.navCtrl.navigateRoot('/');
+      await this.navCtrl.navigateRoot('/');
 
+      // Chiudo il loader
       await this.uniLoader.dismiss();
 
     } catch (err) {

@@ -12,6 +12,7 @@ export class TabsPage {
 
   constructor( private hasCordovaService: HasCordovaService) {
 
+    // Quando costruisco la schermata tab; verifico se nel dispositivo è presente il layer Cordova o meno
     this.hasCordova = this.hasCordovaService.check();
 
   }

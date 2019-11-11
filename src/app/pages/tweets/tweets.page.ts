@@ -36,11 +36,13 @@ export class TweetsPage implements OnInit {
 
     try {
 
+      // Avvio il loader
       await this.uniLoader.show();
 
       // Popolo il mio array di oggetti 'Tweet' con quanto restituito dalla chiamata API
       this.tweets = await this.tweetsService.getTweets();
 
+      // La chiamata è andata a buon fine, dunque rimuovo il loader
       await this.uniLoader.dismiss();
 
     } catch (err) {
@@ -57,24 +59,31 @@ export class TweetsPage implements OnInit {
 
   async createOrEditTweet(tweet?: Tweet) {
 
-    // Creo una modal (assegnandola ad una variabile)
-    // per permettere all'utente di scrivere un nuovo tweet
+    /*
+        Creo una modal (assegnandola ad una variabile)
+        per permettere all'utente di scrivere un nuovo tweet
+    */
     const modal = await this.modalCtrl.create({
       component: NewTweetPage,
       componentProps: {
         tweet
-      } // Passo il parametro tweet. Se non disponibile rimane undefined.
+      } // Passo il parametro tweet. Se non disponibile, rimane undefined.
     });
 
-    // Quando l'utente chiude la modal,
-    // aggiorno il mio array di tweets
+    /*
+        Quando l'utente chiude la modal ( modal.onDidDismiss() ),
+        aggiorno il mio array di tweets
+    */
     modal.onDidDismiss()
     .then(async () => {
 
+      // Avvio il loader
       await this.uniLoader.show();
 
+      // Aggiorno la mia lista di tweet, per importare le ultime modifiche apportate dall'utente
       await this.getTweets();
 
+      // La chiamata è andata a buon fine, dunque rimuovo il loader
       await this.uniLoader.dismiss();
 
     });
@@ -88,6 +97,7 @@ export class TweetsPage implements OnInit {
 
     try {
 
+      // Mostro il loader
       await this.uniLoader.show();
 
       // Cancello il mio tweet
@@ -96,8 +106,10 @@ export class TweetsPage implements OnInit {
       // Riaggiorno la mia lista di tweets
       await this.getTweets();
 
+      // La chiamata è andata a buon fine, dunque rimuovo il loader
       await this.uniLoader.dismiss();
 
+      // Mostro un toast di conferma
       await this.toastService.show({
         message: 'Your tweet was deleted successfully!',
         type: ToastTypes.SUCCESS
@@ -126,6 +138,7 @@ export class TweetsPage implements OnInit {
 
   }
 
+  // Metodo bindato con l'interfaccia in Angular
   getAuthor(tweet: Tweet): string {
 
     if (this.canEdit(tweet)) {

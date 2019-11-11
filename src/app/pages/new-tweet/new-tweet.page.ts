@@ -5,6 +5,7 @@ import { TweetsService } from 'src/app/services/tweets/tweets.service';
 import { ToastService } from 'src/app/shared/toast.service';
 import { ToastTypes } from 'src/app/enums/toast-types.enum';
 import { UniLoaderService } from 'src/app/shared/uniLoader.service';
+import { createReadStream } from 'fs';
 
 @Component({
   selector: 'app-new-tweet',
@@ -28,27 +29,42 @@ export class NewTweetPage implements OnInit {
   ) { }
 
   ngOnInit() {
+    /*
+        Importo il parametro Tweet se acceddo alla modale per MODIFICARE
+        Nel caso di accesso alla modal per createReadStream, la mia variabile sarà undefined
+    */
     this.tweetToEdit = this.navParams.get('tweet');
     this.editMode = this.tweetToEdit !== undefined;
+
   }
 
   async dismiss() {
+
     await this.modalCtrl.dismiss();
+
   }
 
   async createOrEditTweet() {
     try {
 
+      // Avvio il loader
       await this.uniLoader.show();
 
       if (this.editMode) {
+
+        // Chiamo la editTweet se l'utente sta modificando un tweet esistente
         await this.tweetsService.editTweet(this.tweetToEdit);
+
       } else {
+
+        // Chiamo la createTweet se l'utente sta creando un nuovo tweet
         await this.tweetsService.createTweet(this.newTweet);
       }
 
+      // Rimuovo il loader
       await this.uniLoader.dismiss();
 
+      // Chiudo la modal
       await this.dismiss();
 
     } catch (err) {

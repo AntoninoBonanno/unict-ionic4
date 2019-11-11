@@ -29,6 +29,7 @@ export class SignupPage {
 
     try {
 
+      // Avvio il loader
       await this.uniLoader.show();
 
       // Creo utente
@@ -43,10 +44,11 @@ export class SignupPage {
       // Effettuo il login, per salvare il token in sessione
       await this.auth.login(loginUser);
 
+      // Rimuovo il loader
       await this.uniLoader.dismiss();
 
       // Se la chiamata è andata buon fine, porto l'utente sulla schermata Tabs
-      this.navCtrl.navigateRoot('/');
+      await this.navCtrl.navigateRoot('/');
 
       // Nel caso la chiamata vada in errore, mostro l'errore in un toast
       await this.toastService.show({

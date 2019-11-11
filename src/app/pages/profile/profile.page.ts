@@ -34,15 +34,20 @@ export class ProfilePage implements OnInit {
 
   async editAndSave() {
 
+    // Se l'utente è in modalità modifica...
     if (!this.readOnly) {
       try {
 
+        // Avvio il loader
         await this.uniLoader.show();
 
+        // Salvo le modifiche apportate all'oggetto 'me'
         await this.usersService.editUser(this.me);
 
+        // Rimuovo il loader
         await this.uniLoader.dismiss();
 
+        // Mostro toast di conferma
         await this.toastService.show({
           message: 'Your account edits are now safe and sound!',
           type: ToastTypes.SUCCESS
@@ -58,31 +63,33 @@ export class ProfilePage implements OnInit {
 
       }
     }
+
+    // Altrimenti, cambio lo stato della mia variabile - per rendere i campi editabili o meno
     this.readOnly = !this.readOnly;
 
   }
 
   async deleteMe() {
 
-    const alerButtons = [
-      {
-          text: 'Cancel',
-          role: 'cancel',
-          cssClass: 'secondary',
-          handler: () => {}
-      }, {
-          text: 'OK',
-          handler: async () => {
-            this.confirmedDeletedUser();
-          }
+    // Creo testo e callbacks per i bottoni del mio loader
+    const alertButtons = [{
+      text: 'Cancel',
+      role: 'cancel',
+      cssClass: 'secondary',
+      handler: () => {}
+    }, {
+      text: 'OK',
+      handler: async () => {
+        this.confirmedDeletedUser();
       }
-    ];
+    }];
 
+    // Mostro il loader per chiedere all'utente conferma
     await this.uniAlert.show({
-      header: 'Heads up!',
+      header: 'Head up!',
       subHeader: 'You are about to delete your own account.',
       message: 'Do you confirm you want to proceed with this action?',
-      buttons: alerButtons
+      buttons: alertButtons
     });
 
   }
@@ -91,11 +98,16 @@ export class ProfilePage implements OnInit {
 
     try {
 
+      // Avvio il loader
       await this.uniLoader.show();
 
+      // Effettuo la chiamata per cancellare la il mio utente
       await this.usersService.deleteUser(this.me._id);
+
+      // Procedo con il logout
       await this.logout();
 
+      // Rimuovo il loader
       await this.uniLoader.dismiss();
 
     } catch (err) {
@@ -111,9 +123,16 @@ export class ProfilePage implements OnInit {
   }
 
   async logout() {
+
+    // Cancello il mio utente in sessione, settando il mio oggetto a oggetto vuoto
     this.auth.me = {} as User;
+
+    // Cancello il token in sessione settandolo come undefined
     this.auth.userToken = undefined;
+
+    // Navigo l'utente nella schermata Login
     await this.navCtrl.navigateRoot('/login');
+
   }
 
 }
