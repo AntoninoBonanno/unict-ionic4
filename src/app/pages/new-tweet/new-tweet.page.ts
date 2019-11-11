@@ -5,7 +5,6 @@ import { TweetsService } from 'src/app/services/tweets/tweets.service';
 import { ToastService } from 'src/app/shared/toast.service';
 import { ToastTypes } from 'src/app/enums/toast-types.enum';
 import { UniLoaderService } from 'src/app/shared/uniLoader.service';
-import { createReadStream } from 'fs';
 
 @Component({
   selector: 'app-new-tweet',
