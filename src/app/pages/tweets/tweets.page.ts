@@ -196,7 +196,7 @@ export class TweetsPage implements OnInit {
 
 
     tweet._like.push(this.auth.me._id);
-    
+
     /*
         Quando l'utente chiude la modal ( modal.onDidDismiss() ),
         aggiorno il mio array di tweets
@@ -211,8 +211,8 @@ export class TweetsPage implements OnInit {
         // La chiamata è andata a buon fine, dunque rimuovo il loader
         await this.uniLoader.dismiss();
 
-      }); 
-      
+      });
+
 
 
   }
