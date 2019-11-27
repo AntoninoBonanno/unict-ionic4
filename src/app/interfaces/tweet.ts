@@ -11,5 +11,5 @@ export interface Tweet {
     tweet: string;
     _author: User;
     _parent: string;
-    _like: string[];
+    like: string[];
 }

@@ -195,7 +195,7 @@ export class TweetsPage implements OnInit {
   async addLike(tweet: Tweet) {
 
 
-    tweet._like.push(this.auth.me._id);
+    tweet.like.push(this.auth.me._id);
 
     /*
         Quando l'utente chiude la modal ( modal.onDidDismiss() ),
