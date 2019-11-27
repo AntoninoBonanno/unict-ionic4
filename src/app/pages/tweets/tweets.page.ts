@@ -32,9 +32,7 @@ export class TweetsPage implements OnInit {
 
     // Quando carico la pagina, riempio il mio array di Tweets
     await this.getTweets();
-    this.tweets.forEach(_ => {
-      this.usersPics.push(Math.ceil(Math.random() * this.userPicsAvailable));
-    });
+
   }
 
   async getTweets() {
@@ -46,6 +44,10 @@ export class TweetsPage implements OnInit {
 
       // Popolo il mio array di oggetti 'Tweet' con quanto restituito dalla chiamata API
       this.tweets = await this.tweetsService.getTweets();
+      this.usersPics = [];
+      this.tweets.forEach(_ => {
+        this.usersPics.push(Math.ceil(Math.random() * (this.userPicsAvailable - 1)));
+      });
 
       // La chiamata è andata a buon fine, dunque rimuovo il loader
       await this.uniLoader.dismiss();
