@@ -80,6 +80,7 @@ export class TweetsPage implements OnInit {
     */
     modal.onDidDismiss()
       .then(async () => {
+        await this.uniLoader.show();
 
         // Aggiorno la mia lista di tweet, per importare le ultime modifiche apportate dall'utente
         await this.getTweets();
@@ -153,10 +154,11 @@ export class TweetsPage implements OnInit {
     */
     modal.onDidDismiss()
       .then(async () => {
+        await this.uniLoader.show();
         // Aggiorno la mia lista di tweet, per importare le ultime modifiche apportate dall'utente
         await this.getTweets();
         // La chiamata è andata a buon fine, dunque rimuovo il loader
-        //await this.uniLoader.dismiss(); //se non è commentato da un errore
+        await this.uniLoader.dismiss();
       });
 
     // Visualizzo la modal
