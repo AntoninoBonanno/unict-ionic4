@@ -195,25 +195,17 @@ export class TweetsPage implements OnInit {
 
   }
 
-
-  async addLike(tweet: Tweet) {
+ async pushLike(tweet: Tweet) {
+    
+    //if already liked, remove like
+    if(tweet.like.includes(this.auth.me._id) ){
+      tweet.like.splice(tweet.like.indexOf(this.auth.me._id));      
+    }
+    else{
+    // if not already liked, add like
     tweet.like.push(this.auth.me._id);
-
-    /*
-        Quando l'utente chiude la modal ( modal.onDidDismiss() ),
-        aggiorno il mio array di tweets
-    */
-    await this.tweetsService.addLike(tweet)
-
-      .then(async () => {
-
-        // Aggiorno la mia lista di tweet, per importare le ultime modifiche apportate dall'utente
-        await this.getTweets();
-
-        // La chiamata è andata a buon fine, dunque rimuovo il loader
-        await this.uniLoader.dismiss();
-
-      });
+    }
+    await this.tweetsService.pushLike(tweet);
   }
 
   haveMyLike(tweet: Tweet) {

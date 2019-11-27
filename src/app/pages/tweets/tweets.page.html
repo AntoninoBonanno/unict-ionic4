@@ -38,7 +38,7 @@
 
     <ion-card-content>
 
-      <ion-button fill="{{ haveMyLike(tweet) ? 'solid' : 'clear'}}" slot="start" (click)="addLike(tweet)">
+      <ion-button fill="{{ haveMyLike(tweet) ? 'solid' : 'clear'}}" slot="start" (click)="pushLike(tweet)">
         {{tweet.like.length}}
         <ion-icon slot="icon-only" name="thumbs-up"></ion-icon>
       </ion-button>
