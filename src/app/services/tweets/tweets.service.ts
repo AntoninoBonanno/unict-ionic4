@@ -57,4 +57,11 @@ export class TweetsService {
     return a;
 
   }
+  // addLike
+  async addLike(tweet: Tweet) {
+    const headerOptions = this.httpOptions.headers.append('Authorization', `Bearer ${this.auth.userToken}`);
+    return this.http.put<any>(`${environment.API_URL}/tweets/addLike/${tweet._id}`, tweet, {
+      headers: headerOptions
+    }).toPromise();
+  }
 }
