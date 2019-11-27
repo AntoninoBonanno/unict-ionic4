@@ -1,6 +1,8 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>tweets</ion-title>
+    <ion-title>tweets
+      <ion-toggle color="warning">Show Favorites</ion-toggle>
+    </ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -36,15 +38,17 @@
 
     <ion-card-content>
 
-      <ion-button fill="clear" slot="start" (click)="pushLike(tweet)">
-        <ion-icon slot="icon-only" name="thumbs-up"></ion-icon>{{tweet.like.length}}
+      <ion-button fill="{{ haveMyLike(tweet) ? 'solid' : 'clear'}}" slot="start" (click)="pushLike(tweet)">
+        {{tweet.like.length}}
+        <ion-icon slot="icon-only" name="thumbs-up"></ion-icon>
       </ion-button>
 
       <ion-button fill="clear" color="secondary" slot="start" (click)="commentsTweet(tweet)">
         <ion-icon slot="icon-only" name="chatboxes"></ion-icon>
       </ion-button>
 
-      <ion-button fill="clear" color="warning" slot="start" (click)="addRemoveFavorites(tweet)">
+      <ion-button fill="{{tweet.isFavorite ? 'solid' : 'clear'}}" color="warning" slot="start"
+        (click)="addRemoveFavorites(tweet)">
         <ion-icon slot="icon-only" name="star"></ion-icon>
       </ion-button>
 

@@ -32,9 +32,12 @@ export class TweetsService {
   // READ
   async getTweets() {
     const headerOptions = this.httpOptions.headers.append('Authorization', `Bearer ${this.auth.userToken}`);
-    return this.http.get<Tweet[]>(`${environment.API_URL}/tweets`, {
+    var a = this.http.get<Tweet[]>(`${environment.API_URL}/tweets`, {
       headers: headerOptions
     }).toPromise();
+    console.log(a);
+    return a;
+
   }
 
   // UPDATE

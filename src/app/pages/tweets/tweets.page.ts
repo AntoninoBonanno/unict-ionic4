@@ -46,6 +46,8 @@ export class TweetsPage implements OnInit {
 
       // Popolo il mio array di oggetti 'Tweet' con quanto restituito dalla chiamata API
       this.tweets = await this.tweetsService.getTweets();
+      console.log(this.tweets);
+
       this.usersPics = [];
       this.tweets.forEach(_ => {
         this.usersPics.push(Math.ceil(Math.random() * (this.userPicsAvailable - 1)));
@@ -213,15 +215,15 @@ export class TweetsPage implements OnInit {
       // Mostro il loader
       await this.uniLoader.show();
 
-      let user = (tweet.isFavorite) ? await this.usersService.addFavorite(this.auth.me._id, tweet._id) : await this.usersService.removeFavorite(this.auth.me._id, tweet._id);
-      console.log(user);
+      let user = (!tweet.isFavorite) ? await this.usersService.addFavorite(this.auth.me._id, tweet._id) : await this.usersService.removeFavorite(this.auth.me._id, tweet._id);
+      this.auth.me = user;
 
       // Riaggiorno la mia lista di tweets
       await this.getTweets();
 
       // Mostro un toast di conferma
       await this.toastService.show({
-        message: 'Your tweet was deleted successfully!',
+        message: (!tweet.isFavorite) ? 'Your tweet is new favorites!' : 'Your tweet is not more favorites!',
         type: ToastTypes.SUCCESS
       });
 
