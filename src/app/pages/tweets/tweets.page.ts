@@ -38,12 +38,9 @@ export class TweetsPage implements OnInit {
   }
 
   async getTweets() {
-
     try {
-
       // Avvio il loader
       await this.uniLoader.show();
-
       // Popolo il mio array di oggetti 'Tweet' con quanto restituito dalla chiamata API
       this.tweets = await this.tweetsService.getTweets();
       console.log(this.tweets);
@@ -55,17 +52,13 @@ export class TweetsPage implements OnInit {
 
       // La chiamata è andata a buon fine, dunque rimuovo il loader
       await this.uniLoader.dismiss();
-
     } catch (err) {
-
       // Nel caso la chiamata vada in errore, mostro l'errore in un toast
       await this.toastService.show({
         message: err.message,
         type: ToastTypes.ERROR
       });
-
     }
-
   }
 
   async createOrEditTweet(tweet?: Tweet) {
@@ -102,9 +95,7 @@ export class TweetsPage implements OnInit {
   }
 
   async deleteTweet(tweet: Tweet) {
-
     try {
-
       // Mostro il loader
       await this.uniLoader.show();
 
@@ -119,9 +110,7 @@ export class TweetsPage implements OnInit {
         message: 'Your tweet was deleted successfully!',
         type: ToastTypes.SUCCESS
       });
-
     } catch (err) {
-
       // Nel caso la chiamata vada in errore, mostro l'errore in un toast
       await this.toastService.show({
         message: err.message,
@@ -129,38 +118,21 @@ export class TweetsPage implements OnInit {
       });
 
     }
-
     // Chiudo il loader
     await this.uniLoader.dismiss();
-
   }
 
   canEdit(tweet: Tweet): boolean {
-
     // Controllo che l'autore del tweet coincida col mio utente
     if (tweet._author) {
       return tweet._author._id === this.auth.me._id;
     }
-
     return false;
-
   }
 
   // Metodo bindato con l'interfaccia in Angular
   getAuthor(tweet: Tweet): string {
-
-    if (this.canEdit(tweet)) {
-      return 'You';
-    } else {
-      return tweet._author.name + ' ' + tweet._author.surname;
-    }
-
-    /* ------- UNA FORMA PIÚ SINTETICA PER SCRIVERE STA FUNZIONE: -------
-
-      return this.canEdit(tweet) ? 'You' : `${tweet._author.name} ${tweet._author.surname}`;
-
-    */
-
+    return this.canEdit(tweet) ? 'You' : `${tweet._author.name} ${tweet._author.surname}`;
   }
 
   //Creazione della modale per la visualizzazione dei commenti e inserimento di un nuovo commento
@@ -181,13 +153,10 @@ export class TweetsPage implements OnInit {
     */
     modal.onDidDismiss()
       .then(async () => {
-
         // Aggiorno la mia lista di tweet, per importare le ultime modifiche apportate dall'utente
         await this.getTweets();
-
         // La chiamata è andata a buon fine, dunque rimuovo il loader
-        await this.uniLoader.dismiss();
-
+        //await this.uniLoader.dismiss(); //se non è commentato da un errore
       });
 
     // Visualizzo la modal
@@ -195,15 +164,14 @@ export class TweetsPage implements OnInit {
 
   }
 
- async pushLike(tweet: Tweet) {
-    
+  async pushLike(tweet: Tweet) {
     //if already liked, remove like
-    if(tweet.like.includes(this.auth.me._id) ){
-      tweet.like.splice(tweet.like.indexOf(this.auth.me._id));      
+    if (tweet.like.includes(this.auth.me._id)) {
+      tweet.like.splice(tweet.like.indexOf(this.auth.me._id));
     }
-    else{
-    // if not already liked, add like
-    tweet.like.push(this.auth.me._id);
+    else {
+      // if not already liked, add like
+      tweet.like.push(this.auth.me._id);
     }
     await this.tweetsService.pushLike(tweet);
   }
@@ -212,11 +180,8 @@ export class TweetsPage implements OnInit {
     return tweet.like.indexOf(this.auth.me._id) > -1;
   }
 
-
   async addRemoveFavorites(tweet: Tweet) {
-
     try {
-
       // Mostro il loader
       await this.uniLoader.show();
 

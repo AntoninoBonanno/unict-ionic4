@@ -20,21 +20,31 @@
     </ng-template>
   </ion-item>
 
-  <ion-card *ngFor="let comment of comments">
+  <ng-container *ngIf="(isComment && comments.length > 0); else noComment">
+    <ion-card *ngFor="let comment of comments">
+      <ion-item>
+        <ion-label>
+          <h2>{{comment.tweet}}</h2>
+
+          <p *ngIf="comment._author; else userDeleted" class="user" [class.me]="canEdit(comment)">
+            {{ getAuthor(comment) }}
+            <ion-icon *ngIf="canEdit(comment)" name="heart" color="danger-tint"></ion-icon>
+          </p>
+          <ng-template #userDeleted>
+            <p class="user-deleted">User deleted</p>
+          </ng-template>
+        </ion-label>
+      </ion-item>
+    </ion-card>
+  </ng-container>
+  <ng-template #noComment>
     <ion-item>
       <ion-label>
-        <h2>{{comment.tweet}}</h2>
-
-        <p *ngIf="comment._author; else userDeleted" class="user" [class.me]="canEdit(comment)">
-          {{ getAuthor(comment) }}
-          <ion-icon *ngIf="canEdit(comment)" name="heart" color="danger-tint"></ion-icon>
-        </p>
-        <ng-template #userDeleted>
-          <p class="user-deleted">User deleted</p>
-        </ng-template>
+        0 Comment
       </ion-label>
     </ion-item>
-  </ion-card>
+  </ng-template>
+
 
 </ion-content>
 

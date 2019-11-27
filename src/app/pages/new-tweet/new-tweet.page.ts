@@ -125,6 +125,7 @@ export class NewTweetPage implements OnInit {
       // Popolo il mio array di oggetti 'Comments' con quanto restituito dalla chiamata API
       this.comments = await this.tweetsService.getComments(this.newTweet._parent);
       console.log(this.comments);
+      console.log(this.comments.length);
 
       // La chiamata è andata a buon fine, dunque rimuovo il loader
       await this.uniLoader.dismiss();
