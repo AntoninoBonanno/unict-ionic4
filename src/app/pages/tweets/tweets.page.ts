@@ -169,6 +169,8 @@ export class TweetsPage implements OnInit {
       }
     });
 
+
+
     /*
         Quando l'utente chiude la modal ( modal.onDidDismiss() ),
         aggiorno il mio array di tweets
@@ -188,4 +190,29 @@ export class TweetsPage implements OnInit {
     return await modal.present();
 
   }
+  async addLike(tweet: Tweet) {
+
+
+    tweet._like.push(this.auth.me._id);
+    
+    /*
+        Quando l'utente chiude la modal ( modal.onDidDismiss() ),
+        aggiorno il mio array di tweets
+    */
+    await this.tweetsService.addLike(tweet)
+
+      .then(async () => {
+
+        // Aggiorno la mia lista di tweet, per importare le ultime modifiche apportate dall'utente
+        await this.getTweets();
+
+        // La chiamata è andata a buon fine, dunque rimuovo il loader
+        await this.uniLoader.dismiss();
+
+      }); 
+      
+
+
+  }
+
 }
