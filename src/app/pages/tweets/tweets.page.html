@@ -37,7 +37,7 @@
     <ion-card-content>
 
       <ion-button fill="clear" slot="start" (click)="addLike(tweet)">
-        <ion-icon slot="icon-only" name="thumbs-up"></ion-icon>
+        <ion-icon slot="icon-only" name="thumbs-up"></ion-icon>{{tweet.like.length}}
       </ion-button>
 
       <ion-button fill="clear" color="secondary" slot="start" (click)="commentsTweet(tweet)">
