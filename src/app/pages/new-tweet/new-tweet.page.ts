@@ -34,6 +34,8 @@ export class NewTweetPage implements OnInit {
         Nel caso di accesso alla modal per createReadStream, la mia variabile sarà undefined
     */
     this.isComment = this.navParams.get('isComment');
+    this.newTweet._parent = this.navParams.get('tweet')._id;
+
     this.tweetToEdit = !this.isComment ? this.navParams.get('tweet') : undefined;
     this.editMode = this.tweetToEdit !== undefined;
 
@@ -52,14 +54,15 @@ export class NewTweetPage implements OnInit {
       // Avvio il loader
       await this.uniLoader.show();
 
-      if (!this.isComment)
-        if (this.editMode) {
-          // Chiamo la editTweet se l'utente sta modificando un tweet esistente
-          await this.tweetsService.editTweet(this.tweetToEdit);
-        } else {
-          // Chiamo la createTweet se l'utente sta creando un nuovo tweet
-          await this.tweetsService.createTweet(this.newTweet);
-        }
+      if (this.editMode && !this.isComment) {
+        // Chiamo la editTweet se l'utente sta modificando un tweet esistente
+        await this.tweetsService.editTweet(this.tweetToEdit);
+      } else {
+        // Chiamo la createTweet se l'utente sta creando un nuovo tweet
+        await this.tweetsService.createTweet(this.newTweet);
+        console.log(this.newTweet);
+
+      }
 
       // Chiudo la modal
       await this.dismiss();

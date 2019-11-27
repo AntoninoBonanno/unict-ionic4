@@ -2,6 +2,7 @@ import { User } from './user';
 
 export interface NewTweet {
     tweet: string;
+    _parent: string;
 }
 
 export interface Tweet {
@@ -9,5 +10,5 @@ export interface Tweet {
     _id: string;
     tweet: string;
     _author: User;
-    _parent: Tweet;
+    _parent: string;
 }

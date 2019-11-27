@@ -19,7 +19,7 @@ export class TweetsService {
   constructor(
     private http: HttpClient,
     private auth: AuthService
-  ) {}
+  ) { }
 
   // CREATE
   async createTweet(newTweet: NewTweet) {
