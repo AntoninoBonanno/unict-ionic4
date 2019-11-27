@@ -221,7 +221,7 @@ export class TweetsPage implements OnInit {
       // Mostro il loader
       await this.uniLoader.show();
 
-      let user = (tweet.isFavorite) ? await this.usersService.addFavorite(this.auth.me._id, tweet._id) : await this.usersService.removeFavorite(this.auth.me._id, tweet._id);
+      let user = (!tweet.isFavorite) ? await this.usersService.addFavorite(this.auth.me._id, tweet._id) : await this.usersService.removeFavorite(this.auth.me._id, tweet._id);
       console.log(user);
 
       // Riaggiorno la mia lista di tweets
