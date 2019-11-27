@@ -216,6 +216,11 @@ export class TweetsPage implements OnInit {
       });
   }
 
+  haveMyLike(tweet: Tweet) {
+    return tweet.like.indexOf(this.auth.me._id) > -1;
+  }
+
+
   async addRemoveFavorites(tweet: Tweet) {
 
     try {
