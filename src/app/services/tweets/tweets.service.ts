@@ -61,10 +61,10 @@ export class TweetsService {
     return this.http.get<Tweet[]>(`${environment.API_URL}/tweets/${tweetId}/comments`).toPromise();
   }
 
-  // addLike
-  async addLike(tweet: Tweet) {
+  // pushLike
+  async pushLike(tweet: Tweet) {
     const headerOptions = this.httpOptions.headers.append('Authorization', `Bearer ${this.auth.userToken}`);
-    return this.http.put<any>(`${environment.API_URL}/tweets/addLike/${tweet._id}`, tweet, {
+    return this.http.put<any>(`${environment.API_URL}/tweets/pushLike/${tweet._id}`, tweet, {
       headers: headerOptions
     }).toPromise();
   }
