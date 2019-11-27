@@ -1,3 +1,6 @@
+Verifica finale per il conseguimento di Altre Abilità per il cds magistrale di
+ingegneria informatica.
+
 _TO RUN YOUR APP ON A DEVICE, EXECUTE THE FOLLOWING COMMANDS:_
 
 `Remove all the old node modules, plugins, platforms, www and sourcemaps`
