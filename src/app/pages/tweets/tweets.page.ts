@@ -75,15 +75,15 @@ export class TweetsPage implements OnInit {
         aggiorno il mio array di tweets
     */
     modal.onDidDismiss()
-    .then(async () => {
+      .then(async () => {
 
-      // Aggiorno la mia lista di tweet, per importare le ultime modifiche apportate dall'utente
-      await this.getTweets();
+        // Aggiorno la mia lista di tweet, per importare le ultime modifiche apportate dall'utente
+        await this.getTweets();
 
-      // La chiamata è andata a buon fine, dunque rimuovo il loader
-      await this.uniLoader.dismiss();
+        // La chiamata è andata a buon fine, dunque rimuovo il loader
+        await this.uniLoader.dismiss();
 
-    });
+      });
 
     // Visualizzo la modal
     return await modal.present();
@@ -152,4 +152,34 @@ export class TweetsPage implements OnInit {
 
   }
 
+  async commentsTweet(tweet: Tweet) {
+    let isComment = true;
+
+    const modal = await this.modalCtrl.create({
+      component: NewTweetPage,
+      componentProps: {
+        tweet,
+        isComment
+      }
+    });
+
+    /*
+        Quando l'utente chiude la modal ( modal.onDidDismiss() ),
+        aggiorno il mio array di tweets
+    */
+    modal.onDidDismiss()
+      .then(async () => {
+
+        // Aggiorno la mia lista di tweet, per importare le ultime modifiche apportate dall'utente
+        await this.getTweets();
+
+        // La chiamata è andata a buon fine, dunque rimuovo il loader
+        await this.uniLoader.dismiss();
+
+      });
+
+    // Visualizzo la modal
+    return await modal.present();
+
+  }
 }

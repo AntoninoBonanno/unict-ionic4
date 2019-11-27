@@ -1,11 +1,11 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>new-tweet</ion-title>
-  <ion-buttons slot="end">
-    <ion-button color="dark" (click)="dismiss()">
-      <ion-icon slot="icon-only" name="close"></ion-icon>
-    </ion-button>
-  </ion-buttons>
+    <ion-title>{{isComment ? 'new-comment' : 'new-tweet'}}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button color="dark" (click)="dismiss()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -13,12 +13,15 @@
 
   <ion-item>
 
-    <ion-label position="stacked">{{ editMode ? 'Edit' : 'Write' }} your message</ion-label>
+    <ion-label position="stacked">{{ editMode ? 'Edit' : 'Write' }} your {{isComment ? 'comment' : 'message'}}
+    </ion-label>
 
     <ion-textarea *ngIf="editMode; else newMode" [(ngModel)]="tweetToEdit.tweet"></ion-textarea>
     <ng-template #newMode>
       <ion-textarea minlength="1" maxlength="120" [(ngModel)]="newTweet.tweet"></ion-textarea>
     </ng-template>
+
+
 
   </ion-item>
 
@@ -26,6 +29,7 @@
 
 <ion-footer>
   <ion-toolbar>
-    <ion-button expand="full" [disabled]="isDataInvalid()" (click)="createOrEditTweet()">Tweet</ion-button>
+    <ion-button expand="full" [disabled]="isDataInvalid()" (click)="createOrEditTweet()">
+      {{ isComment ? "Comment" : "Tweet"}}</ion-button>
   </ion-toolbar>
 </ion-footer>

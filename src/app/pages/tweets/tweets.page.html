@@ -5,7 +5,7 @@
 </ion-header>
 
 <ion-content>
-
+  <!--
   <ion-list>
 
     <ion-item-sliding *ngFor="let tweet of tweets">
@@ -37,6 +37,47 @@
     </ion-item-sliding>
 
   </ion-list>
+-->
+
+  <ion-card *ngFor="let tweet of tweets">
+    <ion-item>
+      <ion-icon name="pin" slot="start"></ion-icon>
+      <ion-label>
+        <h2>{{tweet.tweet}}</h2>
+
+        <p *ngIf="tweet._author; else userDeleted" class="user" [class.me]="canEdit(tweet)">
+          {{ getAuthor(tweet) }}
+          <ion-icon *ngIf="canEdit(tweet)" name="heart" color="danger-tint"></ion-icon>
+        </p>
+        <ng-template #userDeleted>
+          <p class="user-deleted">User deleted</p>
+        </ng-template>
+      </ion-label>
+
+      <div *ngIf="canEdit(tweet)">
+        <ion-button fill="outline" slot="end" color="secondary" (click)="createOrEditTweet(tweet)">
+          <ion-icon slot="icon-only" name="create"></ion-icon>
+        </ion-button>
+
+        <ion-button fill="outline" slot="end" color="danger" (click)="deleteTweet(tweet)">
+          <ion-icon slot="icon-only" name="trash"></ion-icon>
+        </ion-button>
+      </div>
+    </ion-item>
+
+    <ion-card-content>
+      <ion-button fill="outline" slot="start" (click)="commentsTweet(tweet)">
+        <ion-icon slot="icon-only" name="chatboxes"></ion-icon>
+      </ion-button>
+
+      <!-- modificare questo pulsante per fare i like
+      <ion-button fill="outline" slot="start" (click)="commentsTweet(tweet)">
+          <ion-icon slot="icon-only" name="chatboxes"></ion-icon>
+        </ion-button>
+-->
+    </ion-card-content>
+  </ion-card>
+
 
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button (click)="createOrEditTweet()">

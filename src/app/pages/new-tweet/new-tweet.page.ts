@@ -18,6 +18,7 @@ export class NewTweetPage implements OnInit {
   tweetToEdit: Tweet;
 
   editMode = false;
+  isComment = false;
 
   constructor(
     private modalCtrl: ModalController,
@@ -32,7 +33,8 @@ export class NewTweetPage implements OnInit {
         Importo il parametro Tweet se acceddo alla modale per MODIFICARE
         Nel caso di accesso alla modal per createReadStream, la mia variabile sarà undefined
     */
-    this.tweetToEdit = this.navParams.get('tweet');
+    this.isComment = this.navParams.get('isComment');
+    this.tweetToEdit = !this.isComment ? this.navParams.get('tweet') : undefined;
     this.editMode = this.tweetToEdit !== undefined;
 
   }
@@ -50,16 +52,14 @@ export class NewTweetPage implements OnInit {
       // Avvio il loader
       await this.uniLoader.show();
 
-      if (this.editMode) {
-
-        // Chiamo la editTweet se l'utente sta modificando un tweet esistente
-        await this.tweetsService.editTweet(this.tweetToEdit);
-
-      } else {
-
-        // Chiamo la createTweet se l'utente sta creando un nuovo tweet
-        await this.tweetsService.createTweet(this.newTweet);
-      }
+      if (!this.isComment)
+        if (this.editMode) {
+          // Chiamo la editTweet se l'utente sta modificando un tweet esistente
+          await this.tweetsService.editTweet(this.tweetToEdit);
+        } else {
+          // Chiamo la createTweet se l'utente sta creando un nuovo tweet
+          await this.tweetsService.createTweet(this.newTweet);
+        }
 
       // Chiudo la modal
       await this.dismiss();
@@ -83,11 +83,11 @@ export class NewTweetPage implements OnInit {
 
     if (this.editMode) {
       return !this.tweetToEdit.tweet.length ||
-      this.tweetToEdit.tweet.length > 120;
+        this.tweetToEdit.tweet.length > 120;
     } else {
       if (this.newTweet.tweet) {
         return !this.newTweet.tweet.length ||
-        this.newTweet.tweet.length > 120;
+          this.newTweet.tweet.length > 120;
       }
       return true;
     }
