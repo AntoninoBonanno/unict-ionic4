@@ -19,7 +19,7 @@ export class UsersService {
   constructor(
     private http: HttpClient,
     private auth: AuthService
-  ) {}
+  ) { }
 
   // CREATE
   async createUser(user: User) {
@@ -43,6 +43,21 @@ export class UsersService {
   async deleteUser(userId: string) {
     const headerOptions = this.httpOptions.headers.append('Authorization', `Bearer ${this.auth.userToken}`);
     return this.http.delete<any>(`${environment.API_URL}/users/${userId}`, {
+      headers: headerOptions
+    }).toPromise();
+  }
+
+
+  async addFavorite(userId: string, tweetId: string) {
+    const headerOptions = this.httpOptions.headers.append('Authorization', `Bearer ${this.auth.userToken}`);
+    return this.http.put<User>(`${environment.API_URL}/users/${userId}/favorites/${tweetId}`, {
+      headers: headerOptions
+    }).toPromise();
+  }
+
+  async removeFavorite(userId: string, tweetId: string) {
+    const headerOptions = this.httpOptions.headers.append('Authorization', `Bearer ${this.auth.userToken}`);
+    return this.http.delete<any>(`${environment.API_URL}/users/${userId}/favorites/${tweetId}`, {
       headers: headerOptions
     }).toPromise();
   }
