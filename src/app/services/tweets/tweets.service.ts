@@ -31,7 +31,10 @@ export class TweetsService {
 
   // READ
   async getTweets() {
-    return this.http.get<Tweet[]>(`${environment.API_URL}/tweets`).toPromise();
+    const headerOptions = this.httpOptions.headers.append('Authorization', `Bearer ${this.auth.userToken}`);
+    return this.http.get<Tweet[]>(`${environment.API_URL}/tweets`, {
+      headers: headerOptions
+    }).toPromise();
   }
 
   // UPDATE
@@ -52,11 +55,9 @@ export class TweetsService {
 
   // READ
   async getComments(tweetId: string) {
-    let a = this.http.get<Tweet[]>(`${environment.API_URL}/tweets/${tweetId}/comments`).toPromise();
-    console.log(a);
-    return a;
-
+    return this.http.get<Tweet[]>(`${environment.API_URL}/tweets/${tweetId}/comments`).toPromise();
   }
+
   // addLike
   async addLike(tweet: Tweet) {
     const headerOptions = this.httpOptions.headers.append('Authorization', `Bearer ${this.auth.userToken}`);

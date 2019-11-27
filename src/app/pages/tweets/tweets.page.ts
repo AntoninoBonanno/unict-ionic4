@@ -7,6 +7,7 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 import { UniLoaderService } from 'src/app/shared/uniLoader.service';
 import { ToastService } from 'src/app/shared/toast.service';
 import { ToastTypes } from 'src/app/enums/toast-types.enum';
+import { UsersService } from 'src/app/services/users/users.service';
 
 @Component({
   selector: 'app-tweets',
@@ -22,6 +23,7 @@ export class TweetsPage implements OnInit {
 
   constructor(
     private tweetsService: TweetsService,
+    private usersService: UsersService,
     private modalCtrl: ModalController,
     private auth: AuthService,
     private uniLoader: UniLoaderService,
@@ -171,8 +173,6 @@ export class TweetsPage implements OnInit {
       }
     });
 
-
-
     /*
         Quando l'utente chiude la modal ( modal.onDidDismiss() ),
         aggiorno il mio array di tweets
@@ -192,9 +192,9 @@ export class TweetsPage implements OnInit {
     return await modal.present();
 
   }
+
+
   async addLike(tweet: Tweet) {
-
-
     tweet.like.push(this.auth.me._id);
 
     /*
@@ -212,9 +212,39 @@ export class TweetsPage implements OnInit {
         await this.uniLoader.dismiss();
 
       });
-
-
-
   }
 
+  async addRemoveFavorites(tweet: Tweet) {
+
+    try {
+
+      // Mostro il loader
+      await this.uniLoader.show();
+
+      let user = (tweet.isFavorite) ? await this.usersService.addFavorite(this.auth.me._id, tweet._id) : await this.usersService.removeFavorite(this.auth.me._id, tweet._id);
+      console.log(user);
+
+      // Riaggiorno la mia lista di tweets
+      await this.getTweets();
+
+      // Mostro un toast di conferma
+      await this.toastService.show({
+        message: 'Your tweet was deleted successfully!',
+        type: ToastTypes.SUCCESS
+      });
+
+    } catch (err) {
+
+      // Nel caso la chiamata vada in errore, mostro l'errore in un toast
+      await this.toastService.show({
+        message: err.message,
+        type: ToastTypes.ERROR
+      });
+
+    }
+
+    // Chiudo il loader
+    await this.uniLoader.dismiss();
+
+  }
 }

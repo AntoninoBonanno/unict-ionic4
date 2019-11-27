@@ -12,4 +12,5 @@ export interface Tweet {
     _author: User;
     _parent: string;
     like: string[];
+    isFavorite?: boolean;
 }
