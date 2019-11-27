@@ -39,9 +39,12 @@
   </ion-list>
 -->
 
-  <ion-card *ngFor="let tweet of tweets">
+  <ion-card *ngFor="let tweet of tweets; let i = index">
     <ion-item>
-      <ion-icon name="pin" slot="start"></ion-icon>
+      <ion-avatar slot="start" class="user-avatar">
+        <img [src]="'./assets/users/' + usersPics[i] + '.svg'">
+      </ion-avatar>
+
       <ion-label>
         <h2>{{tweet.tweet}}</h2>
 

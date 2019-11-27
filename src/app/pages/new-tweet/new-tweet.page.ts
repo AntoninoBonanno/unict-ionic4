@@ -5,6 +5,7 @@ import { TweetsService } from 'src/app/services/tweets/tweets.service';
 import { ToastService } from 'src/app/shared/toast.service';
 import { ToastTypes } from 'src/app/enums/toast-types.enum';
 import { UniLoaderService } from 'src/app/shared/uniLoader.service';
+import { AuthService } from 'src/app/services/auth/auth.service';
 
 @Component({
   selector: 'app-new-tweet',
@@ -14,6 +15,7 @@ import { UniLoaderService } from 'src/app/shared/uniLoader.service';
 export class NewTweetPage implements OnInit {
 
   newTweet = {} as NewTweet;
+  comments: Tweet[] = [];
 
   tweetToEdit: Tweet;
 
@@ -24,11 +26,12 @@ export class NewTweetPage implements OnInit {
     private modalCtrl: ModalController,
     private tweetsService: TweetsService,
     private navParams: NavParams,
+    private auth: AuthService,
     private toastService: ToastService,
     private uniLoader: UniLoaderService
   ) { }
 
-  ngOnInit() {
+  async ngOnInit() {
     /*
         Importo il parametro Tweet se acceddo alla modale per MODIFICARE
         Nel caso di accesso alla modal per createReadStream, la mia variabile sarà undefined
@@ -39,6 +42,9 @@ export class NewTweetPage implements OnInit {
     this.tweetToEdit = !this.isComment ? this.navParams.get('tweet') : undefined;
     this.editMode = this.tweetToEdit !== undefined;
 
+    if (this.isComment) {
+      await this.getComments();
+    }
   }
 
   async dismiss() {
@@ -97,4 +103,41 @@ export class NewTweetPage implements OnInit {
 
   }
 
+  canEdit(tweet: Tweet): boolean {
+    // Controllo che l'autore del tweet coincida col mio utente
+    if (tweet._author) {
+      return tweet._author._id === this.auth.me._id;
+    }
+    return false;
+  }
+
+  getAuthor(tweet: Tweet): string {
+    return this.canEdit(tweet) ? 'You' : `${tweet._author.name} ${tweet._author.surname}`;
+  }
+
+  async getComments() {
+
+    try {
+
+      // Avvio il loader
+      await this.uniLoader.show();
+
+      // Popolo il mio array di oggetti 'Comments' con quanto restituito dalla chiamata API
+      this.comments = await this.tweetsService.getComments(this.newTweet._parent);
+      console.log(this.comments);
+
+      // La chiamata è andata a buon fine, dunque rimuovo il loader
+      await this.uniLoader.dismiss();
+
+    } catch (err) {
+
+      // Nel caso la chiamata vada in errore, mostro l'errore in un toast
+      await this.toastService.show({
+        message: err.message,
+        type: ToastTypes.ERROR
+      });
+
+    }
+
+  }
 }

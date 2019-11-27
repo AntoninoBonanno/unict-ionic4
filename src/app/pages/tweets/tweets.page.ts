@@ -17,6 +17,9 @@ export class TweetsPage implements OnInit {
 
   tweets: Tweet[] = [];
 
+  usersPics: number[] = [];
+  private userPicsAvailable = 15;
+
   constructor(
     private tweetsService: TweetsService,
     private modalCtrl: ModalController,
@@ -29,7 +32,9 @@ export class TweetsPage implements OnInit {
 
     // Quando carico la pagina, riempio il mio array di Tweets
     await this.getTweets();
-
+    this.tweets.forEach(_ => {
+      this.usersPics.push(Math.ceil(Math.random() * this.userPicsAvailable));
+    });
   }
 
   async getTweets() {
@@ -152,6 +157,7 @@ export class TweetsPage implements OnInit {
 
   }
 
+  //Creazione della modale per la visualizzazione dei commenti e inserimento di un nuovo commento
   async commentsTweet(tweet: Tweet) {
     let isComment = true;
 
