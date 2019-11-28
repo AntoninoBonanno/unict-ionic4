@@ -80,13 +80,9 @@ export class TweetsPage implements OnInit {
     */
     modal.onDidDismiss()
       .then(async () => {
-        await this.uniLoader.show();
 
         // Aggiorno la mia lista di tweet, per importare le ultime modifiche apportate dall'utente
         await this.getTweets();
-
-        // La chiamata è andata a buon fine, dunque rimuovo il loader
-        await this.uniLoader.dismiss();
 
       });
 
@@ -154,11 +150,8 @@ export class TweetsPage implements OnInit {
     */
     modal.onDidDismiss()
       .then(async () => {
-        await this.uniLoader.show();
         // Aggiorno la mia lista di tweet, per importare le ultime modifiche apportate dall'utente
         await this.getTweets();
-        // La chiamata è andata a buon fine, dunque rimuovo il loader
-        await this.uniLoader.dismiss();
       });
 
     // Visualizzo la modal
@@ -168,13 +161,9 @@ export class TweetsPage implements OnInit {
 
   async pushLike(tweet: Tweet) {
     //if already liked, remove like
-    if (tweet.like.includes(this.auth.me._id)) {
-      tweet.like.splice(tweet.like.indexOf(this.auth.me._id));
-    }
-    else {
-      // if not already liked, add like
-      tweet.like.push(this.auth.me._id);
-    }
+    if (tweet.like.includes(this.auth.me._id)) tweet.like.splice(tweet.like.indexOf(this.auth.me._id));
+    else tweet.like.push(this.auth.me._id); // if not already liked, add like
+
     await this.tweetsService.pushLike(tweet);
   }
 

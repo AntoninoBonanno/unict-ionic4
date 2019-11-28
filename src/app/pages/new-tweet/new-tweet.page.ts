@@ -72,6 +72,7 @@ export class NewTweetPage implements OnInit {
 
       // Chiudo la modal
       await this.dismiss();
+      await this.uniLoader.dismiss();
 
     } catch (err) {
 
@@ -85,7 +86,6 @@ export class NewTweetPage implements OnInit {
 
     // Chiudo il loader
     await this.uniLoader.dismiss();
-
   }
 
   isDataInvalid(): boolean {
