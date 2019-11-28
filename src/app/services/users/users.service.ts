@@ -48,6 +48,11 @@ export class UsersService {
   }
 
 
+  /**
+   * Storia 3 - Inserimento di uno specifico tweet ai preferiti di un utente
+   * @param userId 
+   * @param tweetId 
+   */
   async addFavorite(userId: string, tweetId: string) {
     const headerOptions = this.httpOptions.headers.append('Authorization', `Bearer ${this.auth.userToken}`);
     return this.http.put<User>(`${environment.API_URL}/users/${userId}/favorites/${tweetId}`, {
@@ -55,11 +60,15 @@ export class UsersService {
     }).toPromise();
   }
 
+  /**
+   * * Storia 3 - Rimozione di uno specifico tweet ai preferiti di un utente
+   * @param userId 
+   * @param tweetId 
+   */
   async removeFavorite(userId: string, tweetId: string) {
     const headerOptions = this.httpOptions.headers.append('Authorization', `Bearer ${this.auth.userToken}`);
     return this.http.delete<any>(`${environment.API_URL}/users/${userId}/favorites/${tweetId}`, {
       headers: headerOptions
     }).toPromise();
   }
-
 }

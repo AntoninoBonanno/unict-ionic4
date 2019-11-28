@@ -1,70 +1,82 @@
 <ion-header>
   <ion-toolbar id="toolbar">
-    <ion-grid>
-      <ion-row>
-        <ion-col>
-          <ion-title>tweets</ion-title>
-        </ion-col>
-        <ion-col>
-          <ion-toggle color="warning" [(ngModel)]="onlyFavorites" float-right></ion-toggle>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
+    <ion-title>{{onlyFavorites ? "Favorites Tweet" : "Tweets"}}</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content fullscreen>
   <ion-searchbar placeholder="Search hashtag" animated="true" (ionChange)="onChange($event)"></ion-searchbar>
+
+  <ion-grid>
+    <ion-row>
+      <ion-col class="ion-align-self-center">
+        Show favorites
+      </ion-col>
+      <ion-col>
+        <ion-toggle color="warning" [(ngModel)]="onlyFavorites" class="ion-float-right"></ion-toggle>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 
   <ion-card *ngFor="let tweet of tweets; let i = index">
     <ng-container *ngIf="(!onlyFavorites || (onlyFavorites && tweet.isFavorite))">
-      <ion-item>
-        <ion-avatar slot="start" class="user-avatar">
-          <img [src]="'./assets/users/' + usersPics[i] + '.svg'">
-        </ion-avatar>
 
-        <ion-label>
-          <h2>{{tweet.tweet}}</h2>
-
-          <p *ngIf="tweet._author; else userDeleted" class="user" [class.me]="canEdit(tweet)">
-            {{ getAuthor(tweet) }}
-            <ion-icon *ngIf="canEdit(tweet)" name="heart" color="danger-tint"></ion-icon>
-          </p>
-          <ng-template #userDeleted>
-            <p class="user-deleted">User deleted</p>
-          </ng-template>
-        </ion-label>
-
-        <div *ngIf="canEdit(tweet)">
-          <ion-button fill="clear" slot="end" (click)="createOrEditTweet(tweet)">
+      <ion-row *ngIf="canEdit(tweet)" class="ion-text-end">
+        <ion-col size-sm>
+          <ion-button size="small" fill="clear" (click)="createOrEditTweet(tweet)">
             <ion-icon slot="icon-only" name="create"></ion-icon>
           </ion-button>
-
-          <ion-button fill="clear" slot="end" color="danger" (click)="deleteTweet(tweet)">
+          <ion-button size="small" fill="clear" color="danger" (click)="deleteTweet(tweet)">
             <ion-icon slot="icon-only" name="trash"></ion-icon>
           </ion-button>
-        </div>
-      </ion-item>
+        </ion-col>
+      </ion-row>
 
-      <ion-card-content>
-        <ion-button fill="{{ haveMyLike(tweet) ? 'solid' : 'clear'}}" slot="start" (click)="pushLike(tweet)">
-          {{tweet.like.length}}
-          <ion-icon slot="icon-only" name="thumbs-up"></ion-icon>
-        </ion-button>
+      <ion-card-content style="padding-top: 10px; padding-bottom: 10px;">
+        <ion-row>
+          <ion-col size="4" size-sm>
+            <ion-avatar class="user_avatar">
+              <img [src]="'./assets/users/' + usersPics[i] + '.svg'">
+            </ion-avatar>
+          </ion-col>
+          <ion-col size="8" size-lg>
+            <p class="ion-text-wrap">{{tweet.tweet}}</p>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size-sm>
+            <ion-card-title class="ion-float-right ion-text-wrap" style="font-size:0.8rem">{{tweet.created_at | date}}
+            </ion-card-title>
+            <ion-card-subtitle class="ion-float-left" *ngIf="tweet._author; else userDeleted" class="user"
+              [class.me]="canEdit(tweet)">
+              {{ getAuthor(tweet) }}
+              <ion-icon *ngIf="canEdit(tweet)" name="heart" color="danger-tint"></ion-icon>
+            </ion-card-subtitle>
+            <ng-template #userDeleted>
+              <ion-card-subtitle class="user-deleted">User deleted</ion-card-subtitle>
+            </ng-template>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size-sm>
+            <ion-button size="small" fill="{{ haveMyLike(tweet) ? 'solid' : 'clear'}}" (click)="pushLike(tweet)">
+              {{tweet.like.length}}
+              <ion-icon slot="icon-only" name="thumbs-up"></ion-icon>
+            </ion-button>
 
-        <ion-button fill="clear" color="secondary" slot="start" (click)="commentsTweet(tweet)">
-          <ion-icon slot="icon-only" name="chatboxes"></ion-icon>
-        </ion-button>
+            <ion-button size="small" fill="clear" color="secondary" (click)="commentsTweet(tweet)">
+              <ion-icon slot="icon-only" name="chatboxes"></ion-icon>
+            </ion-button>
 
-        <ion-button fill="{{tweet.isFavorite ? 'solid' : 'clear'}}" color="warning" slot="start"
-          (click)="addRemoveFavorites(tweet)" float-right>
-          <ion-icon slot="icon-only" name="star"></ion-icon>
-        </ion-button>
-
+            <ion-button size="small" fill="{{tweet.isFavorite ? 'solid' : 'clear'}}" color="warning"
+              (click)="addRemoveFavorites(tweet)" class="ion-float-right">
+              <ion-icon slot="icon-only" name="star"></ion-icon>
+            </ion-button>
+          </ion-col>
+        </ion-row>
       </ion-card-content>
     </ng-container>
   </ion-card>
-
 
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button (click)="createOrEditTweet()">

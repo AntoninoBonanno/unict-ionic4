@@ -36,11 +36,11 @@ export class NewTweetPage implements OnInit {
         Importo il parametro Tweet se acceddo alla modale per MODIFICARE
         Nel caso di accesso alla modal per createReadStream, la mia variabile sarà undefined
     */
-    this.isComment = this.navParams.get('isComment');
+    this.isComment = this.navParams.get('isComment'); //Modale dei commenti
 
     if (this.isComment) {
       this.newTweet._parent = this.navParams.get('tweet')._id;
-      await this.getComments();
+      await this.getComments(); //recupero i commenti
     }
     else this.tweetToEdit = this.navParams.get('tweet');
 
@@ -48,9 +48,7 @@ export class NewTweetPage implements OnInit {
   }
 
   async dismiss() {
-
     await this.modalCtrl.dismiss();
-
   }
 
   async createOrEditTweet() {
@@ -82,7 +80,6 @@ export class NewTweetPage implements OnInit {
   }
 
   isDataInvalid(): boolean {
-
     if (this.editMode) {
       return !this.tweetToEdit.tweet.length ||
         this.tweetToEdit.tweet.length > 120;
@@ -93,7 +90,6 @@ export class NewTweetPage implements OnInit {
       }
       return true;
     }
-
   }
 
   canEdit(tweet: Tweet): boolean {
@@ -108,10 +104,11 @@ export class NewTweetPage implements OnInit {
     return this.canEdit(tweet) ? 'You' : `${tweet._author.name} ${tweet._author.surname}`;
   }
 
+  /**
+   * Storia 1 - recupera tutti i commenti inseriti nel tweet
+   */
   async getComments() {
-
     try {
-
       // Avvio il loader
       await this.uniLoader.show();
 
@@ -122,14 +119,12 @@ export class NewTweetPage implements OnInit {
       await this.uniLoader.dismiss();
 
     } catch (err) {
-
       // Nel caso la chiamata vada in errore, mostro l'errore in un toast
       await this.toastService.show({
         message: err.message,
         type: ToastTypes.ERROR
       });
-
     }
-
   }
+
 }

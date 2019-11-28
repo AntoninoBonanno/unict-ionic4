@@ -53,7 +53,7 @@ export class TweetsService {
     }).toPromise();
   }
 
-  // READ
+  // Storia 1 - Recupera tutti i commenti di uno specifico tweet 
   async getComments(tweetId: string) {
     const headerOptions = this.httpOptions.headers.append('Authorization', `Bearer ${this.auth.userToken}`);
     return this.http.get<Tweet[]>(`${environment.API_URL}/tweets/${tweetId}/comments`, {
@@ -61,7 +61,7 @@ export class TweetsService {
     }).toPromise();
   }
 
-  // pushLike
+  // Storia 2 - Inserimento/Rimozione di un like su uno specifico tweet
   async pushLike(tweet: Tweet) {
     const headerOptions = this.httpOptions.headers.append('Authorization', `Bearer ${this.auth.userToken}`);
     return this.http.put<any>(`${environment.API_URL}/tweets/pushLike/${tweet._id}`, tweet, {
@@ -69,11 +69,14 @@ export class TweetsService {
     }).toPromise();
   }
 
+  /**
+   * Storia 4 - Recupero dei tweet con uno specifico hashtag
+   * @param htag 
+   */
   async getTweetsHashtag(htag: String) {
     const headerOptions = this.httpOptions.headers.append('Authorization', `Bearer ${this.auth.userToken}`);
     return this.http.get<Tweet[]>(`${environment.API_URL}/tweets/hashtag/${htag}`, {
       headers: headerOptions
     }).toPromise();
   }
-
 }

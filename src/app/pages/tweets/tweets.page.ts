@@ -21,7 +21,7 @@ export class TweetsPage implements OnInit {
   usersPics: number[] = [];
   private userPicsAvailable = 15;
 
-  onlyFavorites: boolean = false;
+  onlyFavorites: boolean = false; //Per mostrare solo i tweet favoriti
 
   constructor(
     private tweetsService: TweetsService,
@@ -35,7 +35,6 @@ export class TweetsPage implements OnInit {
   async ngOnInit() {
     // Quando carico la pagina, riempio il mio array di Tweets
     await this.getTweets();
-
   }
 
   async getTweets(hashtag?: String) {
@@ -43,7 +42,7 @@ export class TweetsPage implements OnInit {
       // Avvio il loader
       await this.uniLoader.show();
 
-      if (hashtag) this.tweets = await this.tweetsService.getTweetsHashtag(hashtag);
+      if (hashtag) this.tweets = await this.tweetsService.getTweetsHashtag(hashtag); //se ho inserito un hashtag, faccio la rischiesta corretta
       else this.tweets = await this.tweetsService.getTweets();
 
       this.usersPics = [];
@@ -64,7 +63,6 @@ export class TweetsPage implements OnInit {
   }
 
   async createOrEditTweet(tweet?: Tweet) {
-
     /*
         Creo una modal (assegnandola ad una variabile)
         per permettere all'utente di scrivere un nuovo tweet
@@ -88,7 +86,6 @@ export class TweetsPage implements OnInit {
 
     // Visualizzo la modal
     return await modal.present();
-
   }
 
   async deleteTweet(tweet: Tweet) {
@@ -132,7 +129,10 @@ export class TweetsPage implements OnInit {
     return this.canEdit(tweet) ? 'You' : `${tweet._author.name} ${tweet._author.surname}`;
   }
 
-  //Creazione della modale per la visualizzazione dei commenti e inserimento di un nuovo commento
+  /**
+   * Storia 1 - Creazione della modale per la visualizzazione dei commenti e inserimento di un nuovo commento
+   * @param tweet 
+   */
   async commentsTweet(tweet: Tweet) {
     let isComment = true;
 
@@ -159,23 +159,36 @@ export class TweetsPage implements OnInit {
 
   }
 
+  /**
+   * Storia 2 - Aggiunge o rimuove il like ad un tweet
+   * @param tweet 
+   */
   async pushLike(tweet: Tweet) {
-    //if already liked, remove like
+    //se esiste il like lo rimuove, altrimenti lo aggiunge e poi si aggiorna il tweet con l'API
     if (tweet.like.includes(this.auth.me._id)) tweet.like.splice(tweet.like.indexOf(this.auth.me._id));
-    else tweet.like.push(this.auth.me._id); // if not already liked, add like
+    else tweet.like.push(this.auth.me._id);
 
     await this.tweetsService.pushLike(tweet);
   }
 
+  /**
+   * Storia 2 - Controlla se ho messo il like ad uno specifico tweet
+   * @param tweet Tweet da controllare se ho messo like
+   */
   haveMyLike(tweet: Tweet) {
     return tweet.like.indexOf(this.auth.me._id) > -1;
   }
 
+  /**
+   * Storia 3 - Aggiunge o rimuove il tweet come preferito
+   * @param tweet 
+   */
   async addRemoveFavorites(tweet: Tweet) {
     try {
       // Mostro il loader
       await this.uniLoader.show();
 
+      //modifico i favoriti dell'utente e viene restituito il nuovo utente
       let user = (!tweet.isFavorite) ? await this.usersService.addFavorite(this.auth.me._id, tweet._id) : await this.usersService.removeFavorite(this.auth.me._id, tweet._id);
       this.auth.me = user;
 
@@ -203,6 +216,10 @@ export class TweetsPage implements OnInit {
 
   }
 
+  /**
+   * Storia 4 - all'evento di inserimento nella barra di ricerca, recupero i tweet con il corretto hashtag
+   * @param event 
+   */
   async onChange(event) {
     let val = event.detail.value;
     this.getTweets(val);

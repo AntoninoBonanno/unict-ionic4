@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>{{isComment ? 'new-comment' : 'new-tweet'}}</ion-title>
+    <ion-title>{{isComment ? 'New comment' : 'New tweet'}}</ion-title>
     <ion-buttons slot="end">
       <ion-button color="dark" (click)="dismiss()">
         <ion-icon slot="icon-only" name="close"></ion-icon>
@@ -9,21 +9,29 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content fullscreen>
   <ion-item>
     <ion-label position="stacked">{{ editMode ? 'Edit' : 'Write' }} your {{isComment ? 'comment' : 'message'}}
     </ion-label>
 
-    <ion-textarea *ngIf="editMode; else newMode" [(ngModel)]="tweetToEdit.tweet"></ion-textarea>
+    <ion-textarea *ngIf="editMode; else newMode" [(ngModel)]="tweetToEdit.tweet">
+    </ion-textarea>
     <ng-template #newMode>
       <ion-textarea minlength="1" maxlength="120" [(ngModel)]="newTweet.tweet"></ion-textarea>
     </ng-template>
   </ion-item>
 
   <ng-container *ngIf="isComment">
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <div class="commentsTitle">All tweet comments</div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
     <ng-container *ngIf="comments.length > 0; else noComment">
       <ion-card *ngFor="let comment of comments">
-        <ion-item>
+        <ion-card-content>
           <ion-label>
             <h2>{{comment.tweet}}</h2>
 
@@ -35,15 +43,15 @@
               <p class="user-deleted">User deleted</p>
             </ng-template>
           </ion-label>
-        </ion-item>
+        </ion-card-content>
       </ion-card>
     </ng-container>
     <ng-template #noComment>
-      <ion-item>
-        <ion-label>
-          0 Comment
-        </ion-label>
-      </ion-item>
+      <ion-card>
+        <ion-card-content>
+          0 Comments
+        </ion-card-content>
+      </ion-card>
     </ng-template>
   </ng-container>
 
