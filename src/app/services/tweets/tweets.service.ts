@@ -68,4 +68,12 @@ export class TweetsService {
       headers: headerOptions
     }).toPromise();
   }
+
+  async getTweetsHashtag(htag: String) {
+    const headerOptions = this.httpOptions.headers.append('Authorization', `Bearer ${this.auth.userToken}`);
+    return this.http.get<Tweet[]>(`${environment.API_URL}/tweets/hashtag/${htag}`, {
+      headers: headerOptions
+    }).toPromise();
+  }
+
 }

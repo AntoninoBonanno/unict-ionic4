@@ -21,6 +21,8 @@ export class TweetsPage implements OnInit {
   usersPics: number[] = [];
   private userPicsAvailable = 15;
 
+  onlyFavorites: boolean = false;
+
   constructor(
     private tweetsService: TweetsService,
     private usersService: UsersService,
@@ -31,18 +33,21 @@ export class TweetsPage implements OnInit {
   ) { }
 
   async ngOnInit() {
-
     // Quando carico la pagina, riempio il mio array di Tweets
     await this.getTweets();
 
   }
 
-  async getTweets() {
+  async getTweets(hashtag?: String) {
     try {
       // Avvio il loader
       await this.uniLoader.show();
-      // Popolo il mio array di oggetti 'Tweet' con quanto restituito dalla chiamata API
-      this.tweets = await this.tweetsService.getTweets();
+
+      if (hashtag) {
+        this.tweets = await this.tweetsService.getTweetsHashtag(hashtag);
+        console.log(hashtag);
+      }
+      else this.tweets = await this.tweetsService.getTweets();
       console.log(this.tweets);
 
       this.usersPics = [];
@@ -58,6 +63,7 @@ export class TweetsPage implements OnInit {
         message: err.message,
         type: ToastTypes.ERROR
       });
+      await this.uniLoader.dismiss();
     }
   }
 
@@ -201,5 +207,10 @@ export class TweetsPage implements OnInit {
     // Chiudo il loader
     await this.uniLoader.dismiss();
 
+  }
+
+  async onChange(event) {
+    let val = event.detail.value;
+    this.getTweets(val);
   }
 }
