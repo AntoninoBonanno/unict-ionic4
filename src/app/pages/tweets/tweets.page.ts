@@ -43,12 +43,8 @@ export class TweetsPage implements OnInit {
       // Avvio il loader
       await this.uniLoader.show();
 
-      if (hashtag) {
-        this.tweets = await this.tweetsService.getTweetsHashtag(hashtag);
-        console.log(hashtag);
-      }
+      if (hashtag) this.tweets = await this.tweetsService.getTweetsHashtag(hashtag);
       else this.tweets = await this.tweetsService.getTweets();
-      console.log(this.tweets);
 
       this.usersPics = [];
       this.tweets.forEach(_ => {
@@ -86,10 +82,8 @@ export class TweetsPage implements OnInit {
     */
     modal.onDidDismiss()
       .then(async () => {
-
         // Aggiorno la mia lista di tweet, per importare le ultime modifiche apportate dall'utente
         await this.getTweets();
-
       });
 
     // Visualizzo la modal

@@ -54,9 +54,7 @@ export class NewTweetPage implements OnInit {
   }
 
   async createOrEditTweet() {
-
     try {
-
       // Avvio il loader
       await this.uniLoader.show();
 
@@ -66,8 +64,6 @@ export class NewTweetPage implements OnInit {
       } else {
         // Chiamo la createTweet se l'utente sta creando un nuovo tweet
         await this.tweetsService.createTweet(this.newTweet);
-        console.log(this.newTweet);
-
       }
 
       // Chiudo la modal
@@ -75,17 +71,14 @@ export class NewTweetPage implements OnInit {
       await this.uniLoader.dismiss();
 
     } catch (err) {
-
       // Nel caso la chiamata vada in errore, mostro l'errore in un toast
       await this.toastService.show({
         message: err.message,
         type: ToastTypes.ERROR
       });
-
+      // Chiudo il loader
+      await this.uniLoader.dismiss();
     }
-
-    // Chiudo il loader
-    await this.uniLoader.dismiss();
   }
 
   isDataInvalid(): boolean {
@@ -124,8 +117,6 @@ export class NewTweetPage implements OnInit {
 
       // Popolo il mio array di oggetti 'Comments' con quanto restituito dalla chiamata API
       this.comments = await this.tweetsService.getComments(this.newTweet._parent);
-      console.log(this.comments);
-      console.log(this.comments.length);
 
       // La chiamata è andata a buon fine, dunque rimuovo il loader
       await this.uniLoader.dismiss();
