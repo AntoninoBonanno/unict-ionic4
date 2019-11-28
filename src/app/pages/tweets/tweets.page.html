@@ -1,7 +1,15 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>tweets</ion-title>
-    <ion-toggle color="warning" [(ngModel)]="onlyFavorites"></ion-toggle>
+  <ion-toolbar id="toolbar">
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <ion-title>tweets</ion-title>
+        </ion-col>
+        <ion-col>
+          <ion-toggle color="warning" [(ngModel)]="onlyFavorites" float-right></ion-toggle>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
   </ion-toolbar>
 </ion-header>
 
@@ -39,7 +47,6 @@
       </ion-item>
 
       <ion-card-content>
-
         <ion-button fill="{{ haveMyLike(tweet) ? 'solid' : 'clear'}}" slot="start" (click)="pushLike(tweet)">
           {{tweet.like.length}}
           <ion-icon slot="icon-only" name="thumbs-up"></ion-icon>
@@ -50,7 +57,7 @@
         </ion-button>
 
         <ion-button fill="{{tweet.isFavorite ? 'solid' : 'clear'}}" color="warning" slot="start"
-          (click)="addRemoveFavorites(tweet)">
+          (click)="addRemoveFavorites(tweet)" float-right>
           <ion-icon slot="icon-only" name="star"></ion-icon>
         </ion-button>
 
