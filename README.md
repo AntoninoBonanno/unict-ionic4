@@ -1,16 +1,11 @@
-Verifica finale per il conseguimento di Altre Abilità per il cds magistrale di
-ingegneria informatica.
+# Progetto frontend - Verifica finale per il conseguimento di Altre Abilità per il cds magistrale di ingegneria informatica.
 
-_TO RUN YOUR APP ON A DEVICE, EXECUTE THE FOLLOWING COMMANDS:_
+## Authors
 
-`Remove all the old node modules, plugins, platforms, www and sourcemaps`
-    rm -rf node_modules plugins platforms www .sourcemaps
-
-`Re-install your node modules`
-    npm install
-
-`Re-install your Cordova plugins for iOS or Android`
-    ionic cordova prepare <platform> 
-
-`Build your app as an Xcode Workspace or .apk`
-    ionic cordova build <platform>
+* **Biuso Mario** - [GitHub](https://github.com/Mariobiuso)
+* **Bonanno Antonino** - [GitHub](https://github.com/AntoninoBonanno)
+* **Fugale Dario** - [GitHub](https://github.com/dariofugale95)
+* **Nadir Gherbi** - [GitHub](https://github.com/ngwes)
+* **Rigano Fabio** - [GitHub](https://github.com/fabiorigano)
+* **Vecchio Andrea** - [GitHub](https://github.com/andreav94)
+* **Zito Francesco** - [GitHub](https://github.com/francescozito6)
