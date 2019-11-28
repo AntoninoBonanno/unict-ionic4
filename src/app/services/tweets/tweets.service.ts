@@ -64,7 +64,7 @@ export class TweetsService {
   // Storia 2 - Inserimento/Rimozione di un like su uno specifico tweet
   async pushLike(tweet: Tweet) {
     const headerOptions = this.httpOptions.headers.append('Authorization', `Bearer ${this.auth.userToken}`);
-    return this.http.put<any>(`${environment.API_URL}/tweets/pushLike/${tweet._id}`, tweet, {
+    return this.http.put<any>(`${environment.API_URL}/tweets/${tweet._id}/like`, tweet, {
       headers: headerOptions
     }).toPromise();
   }
