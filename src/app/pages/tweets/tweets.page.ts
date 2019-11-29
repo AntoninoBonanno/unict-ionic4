@@ -165,7 +165,10 @@ export class TweetsPage implements OnInit {
    */
   async pushLike(tweet: Tweet) {
     //se esiste il like lo rimuove, altrimenti lo aggiunge e poi si aggiorna il tweet con l'API
-    if (tweet.like.includes(this.auth.me._id)) tweet.like.splice(tweet.like.indexOf(this.auth.me._id));
+    if (tweet.like.includes(this.auth.me._id)) {
+      const index = tweet.like.indexOf(this.auth.me._id, 0);
+      if (index > -1) tweet.like.splice(index, 1);
+    }
     else tweet.like.push(this.auth.me._id);
 
     await this.tweetsService.pushLike(tweet);
